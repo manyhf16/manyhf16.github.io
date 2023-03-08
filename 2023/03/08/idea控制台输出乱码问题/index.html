@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>idea控制台输出乱码问题 | 还施水阁</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Idea 乱码解决今天被初学者问到 Idea 控制台乱码问题，就像这样  网上关于这个问题解决方法有好多种，有的好用，有的不好用，让这个问题的解决带上了玄学色彩，今天就来掰扯掰扯。 首先要明白乱码的本质是：  文件存储时使用的编码和读取文件使用的编码不一致  那么 idea 中在哪里出现了这种不一致呢？ 1. 编译阶段控制台编译对于还没用 IDEA，在控制台手动编译 java 类的同学来说，若 j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="idea控制台输出乱码问题">
+<meta property="og:url" content="http://manyhf16.github.io/2023/03/08/idea%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="还施水阁">
+<meta property="og:description" content="Idea 乱码解决今天被初学者问到 Idea 控制台乱码问题，就像这样  网上关于这个问题解决方法有好多种，有的好用，有的不好用，让这个问题的解决带上了玄学色彩，今天就来掰扯掰扯。 首先要明白乱码的本质是：  文件存储时使用的编码和读取文件使用的编码不一致  那么 idea 中在哪里出现了这种不一致呢？ 1. 编译阶段控制台编译对于还没用 IDEA，在控制台手动编译 java 类的同学来说，若 j">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://manyhf16.github.io/imgs/image-20230308152727212.png">
+<meta property="og:image" content="http://manyhf16.github.io/imgs/image-20230308155744829.png">
+<meta property="og:image" content="http://manyhf16.github.io/imgs/image-20230308165756169.png">
+<meta property="og:image" content="http://manyhf16.github.io/imgs/image-20230308164841104.png">
+<meta property="article:published_time" content="2023-03-08T07:22:41.000Z">
+<meta property="article:modified_time" content="2023-03-08T09:13:49.169Z">
+<meta property="article:author" content="yihang">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="idea">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://manyhf16.github.io/imgs/image-20230308152727212.png">
+  
+    <link rel="alternate" href="/atom.xml" title="还施水阁" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">还施水阁</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">老满的技术空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://manyhf16.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-idea控制台输出乱码问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/08/idea%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2023-03-08T07:22:41.000Z" itemprop="datePublished">2023-03-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      idea控制台输出乱码问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Idea-乱码解决"><a href="#Idea-乱码解决" class="headerlink" title="Idea 乱码解决"></a>Idea 乱码解决</h2><p>今天被初学者问到 Idea 控制台乱码问题，就像这样</p>
+<p><img src="/imgs/image-20230308152727212.png" alt="image-20230308152727212"></p>
+<p>网上关于这个问题解决方法有好多种，有的好用，有的不好用，让这个问题的解决带上了玄学色彩，今天就来掰扯掰扯。</p>
+<p>首先要明白乱码的本质是：</p>
+<blockquote>
+<p><strong>文件存储时使用的编码</strong>和<strong>读取文件使用的编码</strong>不一致</p>
+</blockquote>
+<p>那么 idea 中在哪里出现了这种不一致呢？</p>
+<h3 id="1-编译阶段"><a href="#1-编译阶段" class="headerlink" title="1. 编译阶段"></a>1. 编译阶段</h3><h4 id="控制台编译"><a href="#控制台编译" class="headerlink" title="控制台编译"></a>控制台编译</h4><p>对于还没用 IDEA，在控制台手动编译 java 类的同学来说，若 java 源代码的文件编码为 <code>UTF-8</code>，这时如果我们手动编译这个类，没有主动指定编码的话</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac Test.java</span><br></pre></td></tr></table></figure>
+<p>javac 会按操作系统默认字符编码<strong>读入</strong>这个文件，若两者不一致，则肯定乱码</p>
+<blockquote>
+<p>操作系统默认字符编码每人可能不同，例如我的操作系统默认字符编码为 <code>GBK</code>，可以用命令 chcp 查看</p>
+</blockquote>
+<p>解决方法是告诉 javac：【请你用 <code>UTF-8</code> 编码去读取这个 java 源文件，因为它的编码也是 <code>UTF-8</code>，你俩要一致】转换成命令就是</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac -encoding utf-<span class="number">8</span> Test.java</span><br></pre></td></tr></table></figure>
+<p>这回再去编译、运行 Test 类，乱码不见了。</p>
+<p>再来看 IDEA，对于 IDEA 使用者来说，他在创建 Project 时选择的 Build system 肯定是 IntelliJ，如果学过 Maven 的在这一步，一般选择的是 Maven，因此下面再针对这两种情况来讨论</p>
+<h4 id="IntelliJ-编译"><a href="#IntelliJ-编译" class="headerlink" title="IntelliJ 编译"></a>IntelliJ 编译</h4><p>这时它用来编译 java 类的编译器仍然是 javac，为了让它按特定编码去读取源文件，相关设置在这里：</p>
+<p><img src="/imgs/image-20230308155744829.png" alt="image-20230308155744829"></p>
+<p>或按下图设置也能达到类似的效果</p>
+<p><img src="/imgs/image-20230308165756169.png" alt="image-20230308165756169"></p>
+<h4 id="Maven-编译"><a href="#Maven-编译" class="headerlink" title="Maven 编译"></a>Maven 编译</h4><p>如果你用的是 Maven，相关设置在 maven 的 pom.xml 中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>utf-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面的配置决定了 maven <strong>读取</strong> java 源码去实施编译时，使用的字符编码</p>
+<h3 id="2-运行阶段"><a href="#2-运行阶段" class="headerlink" title="2. 运行阶段"></a>2. 运行阶段</h3><p>如果有读写外部文件的需求，例如下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (<span class="type">BufferedReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">"d:\\a.txt"</span>))) {</span><br><span class="line">    System.out.println(reader.readLine());</span><br><span class="line">} <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>若 a.txt 文件的编码与 jvm 所使用的默认的读写文件编码不一致，同样会出现乱码，怎么查询这个默认编码呢？可以用下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(Charset.defaultCharset());</span><br></pre></td></tr></table></figure>
+<p>如果打印出来与 a.txt 文件的编码不一致，则也会乱码</p>
+<p>因此解决方式就分成两种</p>
+<ol>
+<li>改变 jvm 默认编码</li>
+<li>不使用默认编码，在程序中主动指定编码</li>
+</ol>
+<p>注意方式2，优先级更高，若同时使用，后者生效</p>
+<h4 id="解决方式1-指定默认编码"><a href="#解决方式1-指定默认编码" class="headerlink" title="解决方式1 - 指定默认编码"></a>解决方式1 - 指定默认编码</h4><p>可以在每个类运行时</p>
+<p><img src="/imgs/image-20230308164841104.png" alt="image-20230308164841104"></p>
+<h4 id="解决方式2-程序中指定"><a href="#解决方式2-程序中指定" class="headerlink" title="解决方式2 - 程序中指定"></a>解决方式2 - 程序中指定</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (<span class="type">BufferedReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">"d:\\a.txt"</span>, Charset.forName(<span class="string">"utf-8"</span>)))) {</span><br><span class="line">    System.out.println(reader.readLine());</span><br><span class="line">} <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h3><p>乱码问题并非玄学，并非一口气设置为 UTF-8 就是正确解决之道，要先定位问题出在哪个阶段：是编译阶段、还是运行阶段？当然，还有很多环节情况这里限于篇幅并未展开，需要针对具体问题具体分析。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://manyhf16.github.io/2023/03/08/idea%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" data-id="clezgry7x0000oku96rh0c875" data-title="idea控制台输出乱码问题" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/idea/" rel="tag">idea</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/03/01/%E5%A4%A7O%E8%A1%A8%E7%A4%BA%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">大O表示法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/" rel="tag">idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/08/idea%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/">idea控制台输出乱码问题</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/01/%E5%A4%A7O%E8%A1%A8%E7%A4%BA%E6%B3%95/">大O表示法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 yihang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>
